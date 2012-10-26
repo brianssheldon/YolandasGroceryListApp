@@ -60,7 +60,7 @@ public class KnownItemsDao
 		List<KnownItem> items = new ArrayList<KnownItem>();
 
 		Cursor cursor = database.query(KnownItemsSqlHelper.TABLE_NAME, allColumns,
-				null, null, null, null, null);
+				null, null, null, null, KnownItemsSqlHelper.COLUMN_ITEM);
 		cursor.moveToFirst();
 
 		while (!cursor.isAfterLast())
