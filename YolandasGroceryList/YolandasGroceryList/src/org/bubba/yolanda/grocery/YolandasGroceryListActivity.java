@@ -39,6 +39,11 @@ public class YolandasGroceryListActivity extends ListActivity
 		
 		loadGroceryItems();
 		
+		getListView().setOnItemClickListener(getItemClickListener());
+	}
+
+	private OnItemClickListener getItemClickListener()
+	{
 		OnItemClickListener listViewOnClickListener = new OnItemClickListener()
 		{
 			@Override
@@ -78,13 +83,14 @@ public class YolandasGroceryListActivity extends ListActivity
 			        .show();
 			}
 		};
-		getListView().setOnItemClickListener(listViewOnClickListener);
+		return listViewOnClickListener;
 	}
 
 	private void loadGroceryItems()
 	{
 		List<GroceryItem> groceryItems = getGroceryList();
-		ArrayAdapter<GroceryItem> adapter = new ArrayAdapter<GroceryItem>(this, android.R.layout.simple_list_item_1, groceryItems);
+		ArrayAdapter<GroceryItem> adapter = new ArrayAdapter<GroceryItem>(
+				this, android.R.layout.simple_list_item_1, groceryItems);
 		setListAdapter(adapter);
 	}
 
