@@ -34,6 +34,6 @@ public class GroceryItem
 	@Override
 	public String toString()
 	{
-		return (item + "                              ").substring(0, 30) + quantity;
+		return (item + "                                                  ").substring(0, 40) + "  " + quantity;
 	}
 }

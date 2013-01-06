@@ -62,31 +62,24 @@ public class YolandasGroceryListActivity extends ListActivity
 				
 				if(item == null) return;
 				
-		        CharSequence[] items = new CharSequence[]{"Delete","Cancel",
-		        		"1","2","3","4","5","6","7","8","9"};
+		        CharSequence[] items = new CharSequence[103];
+		        items[0] = "Delete Item   '" + item.getItem() + "' ?";
+		        items[1] = "Cancel";
+		        for (int i = 0; i < 101; i++) items[i+2]=""+(i+1);
 				
 				new AlertDialog.Builder(arg0.getContext())
-//			        .setIcon(android.R.drawable.ic_dialog_alert)
-			        .setTitle("Delete Item?")
-//			        .setMessage("Do you want to delete\n\n" + item.getItem() + "?")
+			        .setIcon(android.R.drawable.ic_dialog_alert)
+			        .setTitle("Delete Item   '" + item.getItem() + "'")
 			        .setItems(items, 
 			        		new OnClickListener()
 					{
 						@Override
 						public void onClick(DialogInterface dialog, int which)
 						{
-//							Context applicationContext = getApplicationContext();
-//							Toast.makeText(applicationContext, "'" + which + "'", Toast.LENGTH_SHORT).show();
-						
 							if(which == 0)
 							{
 								groceryListDao.deleteItem(item);
-								List<GroceryItem> groceryItems = getGroceryList();
-								ArrayAdapter<GroceryItem> adapter = new ArrayAdapter<GroceryItem>(
-										av.getContext(), 
-										android.R.layout.simple_list_item_1, 
-										groceryItems);
-								setListAdapter(adapter);
+								loadViewAdapter(av);
 							}
 							else if(which == 1)
 							{
@@ -96,44 +89,10 @@ public class YolandasGroceryListActivity extends ListActivity
 							{
 								item.setQuantity(which - 1);
 								saveItem(item);
-								List<GroceryItem> groceryItems = getGroceryList();
-								ArrayAdapter<GroceryItem> adapter = new ArrayAdapter<GroceryItem>(
-										av.getContext(), 
-										android.R.layout.simple_list_item_1, 
-										groceryItems);
-								setListAdapter(adapter);
+								loadViewAdapter(av);
 							}
 						}
 					})
-//			        .setPositiveButton("Delete", new DialogInterface.OnClickListener() 
-//			        {
-//			            @Override
-//			            public void onClick(DialogInterface dialog, int which)
-//			            {
-//							groceryListDao.deleteItem(item);
-//							List<GroceryItem> groceryItems = getGroceryList();
-//							ArrayAdapter<GroceryItem> adapter = new ArrayAdapter<GroceryItem>(
-//									av.getContext(), 
-//									android.R.layout.simple_list_item_1, 
-//									groceryItems);
-//							setListAdapter(adapter);
-//			            }
-//			        })
-//			        .setNeutralButton("Change quantity?", new DialogInterface.OnClickListener() 
-//			        {
-//			            @Override
-//			            public void onClick(DialogInterface dialog, int which)
-//			            {
-////							groceryListDao.deleteItem(item);
-////							List<GroceryItem> groceryItems = getGroceryList();
-////							ArrayAdapter<GroceryItem> adapter = new ArrayAdapter<GroceryItem>(
-////									av.getContext(), 
-////									android.R.layout.simple_list_item_1, 
-////									groceryItems);
-////							setListAdapter(adapter);
-//			            }
-//			        }) 
-//			        .setNegativeButton("cancel", null)
 			        .create()
 			        .show();
 			}
@@ -141,23 +100,16 @@ public class YolandasGroceryListActivity extends ListActivity
 		return listViewOnClickListener;
 	}
 
-//	protected OnClickListener itemQuantityOnClickListener()
-//	{
-//		OnClickListener listViewOnClickListener = new OnClickListener()
-//		{
-//			@Override
-//			public void onClick(DialogInterface dialog, int which)
-//			{
-//				Context applicationContext = getApplicationContext();
-//				Toast.makeText(applicationContext, "'" + which + "'", Toast.LENGTH_SHORT).show();
-//				
-//			}
-//
-//		};
-//		
-//		return listViewOnClickListener;
-//	}
-
+	private void loadViewAdapter(final AdapterView av)
+	{
+		List<GroceryItem> groceryItems = getGroceryList();
+		ArrayAdapter<GroceryItem> adapter = new ArrayAdapter<GroceryItem>(
+				av.getContext(), 
+				android.R.layout.simple_list_item_1, 
+				groceryItems);
+		setListAdapter(adapter);
+	}
+	
 	private void loadGroceryItems()
 	{
 		List<GroceryItem> groceryItems = getGroceryList();
@@ -202,9 +154,7 @@ public class YolandasGroceryListActivity extends ListActivity
 
 			((AutoCompleteTextView)findViewById(R.id.actv)).setText("");
 
-			List<GroceryItem> groceryItems = getGroceryList();
-			ArrayAdapter<GroceryItem> adapter = new ArrayAdapter<GroceryItem>(parent.getContext(), android.R.layout.simple_list_item_1, groceryItems);
-			setListAdapter(adapter);
+			loadViewAdapter(parent);
 		}
 	}
     
