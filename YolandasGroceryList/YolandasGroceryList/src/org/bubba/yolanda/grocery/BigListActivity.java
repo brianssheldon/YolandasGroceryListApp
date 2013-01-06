@@ -60,7 +60,7 @@ public class BigListActivity extends Activity
 			String text = arg0.getText().toString();
 			if("".equals(text)) return;
 			
-			groceryListDao.createItem(text);
+			groceryListDao.createItem(text, 1);
 			groceryListDao.close();
 		}
 	}

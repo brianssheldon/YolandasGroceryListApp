@@ -46,11 +46,11 @@ public class GroceryListDao
 //		deleteItem(item);
 //	}
 	
-	public GroceryItem createItem(String item)
+	public GroceryItem createItem(String item, int quantity)
 	{
 		ContentValues values = new ContentValues();
 		values.put(GroceryListSqlHelper.COLUMN_ITEM, item);
-		values.put(GroceryListSqlHelper.COLUMN_QUANTITY, 1);
+		values.put(GroceryListSqlHelper.COLUMN_QUANTITY, quantity);
 		long insertId = database.insert(GroceryListSqlHelper.TABLE_NAME, null, values);
 		
 		Cursor cursor = database.query(GroceryListSqlHelper.TABLE_NAME, allColumns,
@@ -68,6 +68,12 @@ public class GroceryListDao
 		System.out.println("Item deleted with id: " + id + "  item: " + item);
 		database.delete(GroceryListSqlHelper.TABLE_NAME, GroceryListSqlHelper.COLUMN_ID + " = "
 				+ id, null);
+	}
+
+	public void updateItem(GroceryItem item)
+	{
+		deleteItem(item);
+		createItem(item.getItem(), item.getQuantity());
 	}
 
 	public List<GroceryItem> getAllItems()

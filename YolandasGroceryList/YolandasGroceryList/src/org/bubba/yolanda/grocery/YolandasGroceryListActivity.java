@@ -11,6 +11,7 @@ import org.bubba.yolanda.grocery.list.GroceryListDao;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -61,30 +62,101 @@ public class YolandasGroceryListActivity extends ListActivity
 				
 				if(item == null) return;
 				
-		        new AlertDialog.Builder(arg0.getContext())
-			        .setIcon(android.R.drawable.ic_dialog_alert)
+		        CharSequence[] items = new CharSequence[]{"Delete","Cancel",
+		        		"1","2","3","4","5","6","7","8","9"};
+				
+				new AlertDialog.Builder(arg0.getContext())
+//			        .setIcon(android.R.drawable.ic_dialog_alert)
 			        .setTitle("Delete Item?")
-			        .setMessage("Do you want to delete\n\n" + item.getItem() + "?")
-			        .setPositiveButton("Delete", new DialogInterface.OnClickListener() 
-			        {
-			            @Override
-			            public void onClick(DialogInterface dialog, int which)
-			            {
-							groceryListDao.deleteItem(item);
-							List<GroceryItem> groceryItems = getGroceryList();
-							ArrayAdapter<GroceryItem> adapter = new ArrayAdapter<GroceryItem>(
-									av.getContext(), 
-									android.R.layout.simple_list_item_1, 
-									groceryItems);
-							setListAdapter(adapter);
-			            }
-			        })
-			        .setNegativeButton("cancel", null)
+//			        .setMessage("Do you want to delete\n\n" + item.getItem() + "?")
+			        .setItems(items, 
+			        		new OnClickListener()
+					{
+						@Override
+						public void onClick(DialogInterface dialog, int which)
+						{
+//							Context applicationContext = getApplicationContext();
+//							Toast.makeText(applicationContext, "'" + which + "'", Toast.LENGTH_SHORT).show();
+						
+							if(which == 0)
+							{
+								groceryListDao.deleteItem(item);
+								List<GroceryItem> groceryItems = getGroceryList();
+								ArrayAdapter<GroceryItem> adapter = new ArrayAdapter<GroceryItem>(
+										av.getContext(), 
+										android.R.layout.simple_list_item_1, 
+										groceryItems);
+								setListAdapter(adapter);
+							}
+							else if(which == 1)
+							{
+								return;
+							}
+							else if(which > 1)
+							{
+								item.setQuantity(which - 1);
+								saveItem(item);
+								List<GroceryItem> groceryItems = getGroceryList();
+								ArrayAdapter<GroceryItem> adapter = new ArrayAdapter<GroceryItem>(
+										av.getContext(), 
+										android.R.layout.simple_list_item_1, 
+										groceryItems);
+								setListAdapter(adapter);
+							}
+						}
+					})
+//			        .setPositiveButton("Delete", new DialogInterface.OnClickListener() 
+//			        {
+//			            @Override
+//			            public void onClick(DialogInterface dialog, int which)
+//			            {
+//							groceryListDao.deleteItem(item);
+//							List<GroceryItem> groceryItems = getGroceryList();
+//							ArrayAdapter<GroceryItem> adapter = new ArrayAdapter<GroceryItem>(
+//									av.getContext(), 
+//									android.R.layout.simple_list_item_1, 
+//									groceryItems);
+//							setListAdapter(adapter);
+//			            }
+//			        })
+//			        .setNeutralButton("Change quantity?", new DialogInterface.OnClickListener() 
+//			        {
+//			            @Override
+//			            public void onClick(DialogInterface dialog, int which)
+//			            {
+////							groceryListDao.deleteItem(item);
+////							List<GroceryItem> groceryItems = getGroceryList();
+////							ArrayAdapter<GroceryItem> adapter = new ArrayAdapter<GroceryItem>(
+////									av.getContext(), 
+////									android.R.layout.simple_list_item_1, 
+////									groceryItems);
+////							setListAdapter(adapter);
+//			            }
+//			        }) 
+//			        .setNegativeButton("cancel", null)
+			        .create()
 			        .show();
 			}
 		};
 		return listViewOnClickListener;
 	}
+
+//	protected OnClickListener itemQuantityOnClickListener()
+//	{
+//		OnClickListener listViewOnClickListener = new OnClickListener()
+//		{
+//			@Override
+//			public void onClick(DialogInterface dialog, int which)
+//			{
+//				Context applicationContext = getApplicationContext();
+//				Toast.makeText(applicationContext, "'" + which + "'", Toast.LENGTH_SHORT).show();
+//				
+//			}
+//
+//		};
+//		
+//		return listViewOnClickListener;
+//	}
 
 	private void loadGroceryItems()
 	{
@@ -126,7 +198,7 @@ public class YolandasGroceryListActivity extends ListActivity
 				return;
 			}
 
-			groceryListDao.createItem(name);
+			groceryListDao.createItem(name, 1);
 
 			((AutoCompleteTextView)findViewById(R.id.actv)).setText("");
 
@@ -165,22 +237,28 @@ public class YolandasGroceryListActivity extends ListActivity
 		return groceryListDao.getAllItems();
 	}
 
+	private void saveItem(GroceryItem item)
+	{
+		groceryListDao = new GroceryListDao(this);
+		groceryListDao.open();
+		groceryListDao.updateItem(item);
+	}
+
 	// Will be called via the onClick attribute of the buttons in main.xml
 	public void onClick(View view)
 	{
 		@SuppressWarnings("unchecked")
 		ArrayAdapter<KnownItem> adapter = (ArrayAdapter<KnownItem>) getListAdapter();
-		KnownItem item = null;
 		
 		switch (view.getId())
 		{
 			case R.id.add:
 				String text = ((AutoCompleteTextView)findViewById(R.id.actv)).getText().toString();
 
-				item = knownItemsDao.createKnownItem(text);
+				knownItemsDao.createKnownItem(text);
 				loadKnownItemsView();
 				
-				groceryListDao.createItem(text);
+				groceryListDao.createItem(text, 1);
 				
 				((AutoCompleteTextView)findViewById(R.id.actv)).setText("");
 	
