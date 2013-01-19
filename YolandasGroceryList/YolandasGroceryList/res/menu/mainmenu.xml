@@ -7,4 +7,10 @@
 	    android:menuCategory="container"
 	    android:title="add from big list" 
 	    android:visible="true"/>
+     <item  
+	    android:id="@+id/textList" 
+    	android:enabled="true" 
+	    android:menuCategory="container"
+	    android:title="text list" 
+	    android:visible="true"/>
 </menu>

@@ -65,9 +65,10 @@ public class GroceryListDao
 	public void deleteItem(GroceryItem item)
 	{
 		long id = item.getId();
-		System.out.println("Item deleted with id: " + id + "  item: " + item);
-		database.delete(GroceryListSqlHelper.TABLE_NAME, GroceryListSqlHelper.COLUMN_ID + " = "
+		System.out.println("Deleting item with id: " + id + "  item: " + item);
+		int nbrOfRows = database.delete(GroceryListSqlHelper.TABLE_NAME, GroceryListSqlHelper.COLUMN_ID + " = "
 				+ id, null);
+		System.out.println("Item deleted with id: " + id + "  item: " + item + "  rows deleted: " + nbrOfRows);
 	}
 
 	public void updateItem(GroceryItem item)

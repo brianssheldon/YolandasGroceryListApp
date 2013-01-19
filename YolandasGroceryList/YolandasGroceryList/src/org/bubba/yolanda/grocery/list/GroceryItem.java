@@ -34,6 +34,8 @@ public class GroceryItem
 	@Override
 	public String toString()
 	{
-		return (item + "                                                  ").substring(0, 40) + "  " + quantity;
+		if(item.length() > 24) return item + " " + quantity;
+		
+		return (item + "                                                  ").substring(0, 25) + " " + quantity;
 	}
 }

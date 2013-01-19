@@ -8,12 +8,15 @@ import org.bubba.yolanda.grocery.knownitems.KnownItemsDao;
 import org.bubba.yolanda.grocery.list.GroceryItem;
 import org.bubba.yolanda.grocery.list.GroceryListDao;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,24 +26,39 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class YolandasGroceryListActivity extends ListActivity
 {
-	private KnownItemsDao knownItemsDao;
-	private GroceryListDao groceryListDao;
+	private KnownItemsDao knownItemsDao = null;
+	private GroceryListDao groceryListDao = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
+		
+		opendbs();
 		loadKnownItemsView();
 		
 		loadGroceryItems();
 		
 		getListView().setOnItemClickListener(getItemClickListener());
+	}
+
+	private void opendbs()
+	{
+		if(groceryListDao == null)
+		{
+			groceryListDao = new GroceryListDao(this);
+			groceryListDao.open();
+		}
+		
+		if(knownItemsDao == null)
+		{
+			knownItemsDao = new KnownItemsDao(this);
+			knownItemsDao.open();
+		}
 	}
 
 	private OnItemClickListener getItemClickListener()
@@ -79,7 +97,7 @@ public class YolandasGroceryListActivity extends ListActivity
 							if(which == 0)
 							{
 								groceryListDao.deleteItem(item);
-								loadViewAdapter(av);
+								loadGroceryItems();
 							}
 							else if(which == 1)
 							{
@@ -89,7 +107,7 @@ public class YolandasGroceryListActivity extends ListActivity
 							{
 								item.setQuantity(which - 1);
 								saveItem(item);
-								loadViewAdapter(av);
+								loadGroceryItems();
 							}
 						}
 					})
@@ -99,22 +117,12 @@ public class YolandasGroceryListActivity extends ListActivity
 		};
 		return listViewOnClickListener;
 	}
-
-	private void loadViewAdapter(final AdapterView av)
-	{
-		List<GroceryItem> groceryItems = getGroceryList();
-		ArrayAdapter<GroceryItem> adapter = new ArrayAdapter<GroceryItem>(
-				av.getContext(), 
-				android.R.layout.simple_list_item_1, 
-				groceryItems);
-		setListAdapter(adapter);
-	}
 	
 	private void loadGroceryItems()
 	{
 		List<GroceryItem> groceryItems = getGroceryList();
 		ArrayAdapter<GroceryItem> adapter = new ArrayAdapter<GroceryItem>(
-				this, android.R.layout.simple_list_item_1, groceryItems);
+				this, R.layout.list_item, groceryItems);
 		setListAdapter(adapter);
 	}
 
@@ -154,14 +162,14 @@ public class YolandasGroceryListActivity extends ListActivity
 
 			((AutoCompleteTextView)findViewById(R.id.actv)).setText("");
 
-			loadViewAdapter(parent);
+			loadGroceryItems();
 		}
 	}
     
 	private List<KnownItem> getKnownItems()
 	{
-		knownItemsDao = new KnownItemsDao(this);
-		knownItemsDao.open();
+//		knownItemsDao = new KnownItemsDao(this);
+//		knownItemsDao.open();
 		List<KnownItem> values = knownItemsDao.getAllItems();
 		
 		if(values != null && values.size() > 0) 
@@ -182,15 +190,13 @@ public class YolandasGroceryListActivity extends ListActivity
 
 	private List<GroceryItem> getGroceryList()
 	{
-		groceryListDao = new GroceryListDao(this);
-		groceryListDao.open();
+		opendbs();
 		return groceryListDao.getAllItems();
 	}
 
 	private void saveItem(GroceryItem item)
 	{
-		groceryListDao = new GroceryListDao(this);
-		groceryListDao.open();
+		opendbs();
 		groceryListDao.updateItem(item);
 	}
 
@@ -230,6 +236,7 @@ public class YolandasGroceryListActivity extends ListActivity
 	    return true;
 	}
 	
+	@SuppressLint("NewApi")
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{	// called when they have selected a menu option
@@ -243,6 +250,10 @@ public class YolandasGroceryListActivity extends ListActivity
 		    	Intent bigListIntent = new Intent(this, BigListActivity.class);
 		    	startActivityForResult(bigListIntent, 101);
 		    	return true;
+		    case R.id.textList:
+		    	Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+		    	startActivityForResult(intent, 191);
+		    	return true;
 		    	
 		    default:
 		        return super.onOptionsItemSelected(item);
@@ -253,17 +264,26 @@ public class YolandasGroceryListActivity extends ListActivity
     public void onActivityResult(int requestCode,int resultCode,Intent data)
     {	// after we get back from BigListActivity etc, reload page
 	     super.onActivityResult(requestCode, resultCode, data);
-
-	     switch(resultCode) 
+	     
+	     switch(requestCode)
 	     {
-	     	case 92:
-	     		Toast.makeText(this, "barcode not found. sorry", Toast.LENGTH_SHORT).show();
-	     		break;
-	     	case 93:
-//	     		addTextView();
-	     		break;
+	     case 191:
+	    	 Uri data2 = data.getData();
+			String asdf = data2.getPath();
+	    	 break;
 	     }
 	     
+	     
+//	     switch(resultCode) 
+//	     {
+//	     	case 93:
+////	     		addTextView();
+//	     		break;
+//	     	case 191:
+////	     		addTextView();
+//	     		break;
+//	     }
+	     onResume();
 	     loadGroceryItems();
     }
 	
@@ -282,4 +302,20 @@ public class YolandasGroceryListActivity extends ListActivity
 		groceryListDao.close();
 		super.onPause();
 	}
+
+//	@Override
+//	protected void onRestoreInstanceState(Bundle state)
+//	{
+//		knownItemsDao.open();
+//		groceryListDao.open();
+//		super.onRestoreInstanceState(state);
+//	}
+//
+//	@Override
+//	protected void onSaveInstanceState(Bundle outState)
+//	{
+//		knownItemsDao.close();
+//		groceryListDao.close();
+//		super.onSaveInstanceState(outState);
+//	}
 }
