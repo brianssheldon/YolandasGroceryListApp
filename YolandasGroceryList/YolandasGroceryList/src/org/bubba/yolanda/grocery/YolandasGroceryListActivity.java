@@ -3,6 +3,8 @@ package org.bubba.yolanda.grocery;
 import java.util.Iterator;
 import java.util.List;
 
+import org.bubba.yolanda.edittextphonenbrs.EditTextMsgNumbersActivity;
+import org.bubba.yolanda.edittextphonenbrs.TextMsgUtils;
 import org.bubba.yolanda.grocery.knownitems.KnownItem;
 import org.bubba.yolanda.grocery.knownitems.KnownItemsDao;
 import org.bubba.yolanda.grocery.list.GroceryItem;
@@ -16,7 +18,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -168,8 +169,6 @@ public class YolandasGroceryListActivity extends ListActivity
     
 	private List<KnownItem> getKnownItems()
 	{
-//		knownItemsDao = new KnownItemsDao(this);
-//		knownItemsDao.open();
 		List<KnownItem> values = knownItemsDao.getAllItems();
 		
 		if(values != null && values.size() > 0) 
@@ -231,6 +230,8 @@ public class YolandasGroceryListActivity extends ListActivity
 	{	// only called once - creates the menu
 	    MenuInflater inflater = getMenuInflater();
 
+	    addToMenu(menu);
+	    
 	    inflater.inflate(R.menu.mainmenu, menu);
 	    
 	    return true;
@@ -240,24 +241,62 @@ public class YolandasGroceryListActivity extends ListActivity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{	// called when they have selected a menu option
+    	SendTextMessage stm = new SendTextMessage();
 
 	    int itemId = item.getItemId();
 	    
 		switch (itemId)
 	    {	
-		    
+
+		    case 1:
+		    case 2:
+		    case 3:
+		    	stm.sendTextMsg(item.getTitle().toString(), this, getGroceryList());
+		    	return true;
+	    	
 		    case R.id.addFromBigList:	// go to screen to select items from big list
 		    	Intent bigListIntent = new Intent(this, BigListActivity.class);
 		    	startActivityForResult(bigListIntent, 101);
 		    	return true;
-		    case R.id.textList:
-		    	Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-		    	startActivityForResult(intent, 191);
+		    case R.id.editTextMsgNbrlist:
+	            Intent myIntent = new Intent(this, EditTextMsgNumbersActivity.class);
+	            startActivityForResult(myIntent, 100);
 		    	return true;
+		    
+		    case R.id.clearGroceryList:
+		    	groceryListDao.deleteAllItems();
+		    	loadGroceryItems();
 		    	
 		    default:
 		        return super.onOptionsItemSelected(item);
 	    }
+	}
+	
+	public boolean onPrepareOptionsMenu (Menu menu)
+	{	// called everytime menu is launched. If textMsg nbrs have changed, 
+		// I need to repopulate the text.
+		menu.removeGroup(9); // remove existing textMsg Nbrs from menu
+		    
+	    addToMenu(menu); // add textMsg Nbrs to menu
+	    
+	    return true;
+	}
+
+	void addToMenu(Menu menu)
+	{
+		TextMsgUtils textUtils = new TextMsgUtils();
+	    
+	    String textNbrsString = textUtils.readTextMsgNumbersFile(getApplicationContext()).toString();
+	    String[] textNbrs = textUtils.parseTxtMsgNbrs(textNbrsString);
+	    
+	    for (int i = 0; i < textNbrs.length; i++)
+	    {
+	    	if(textNbrs[i] == null || textNbrs[i].trim().length() < 1 )
+	    	{
+	    		break;
+	    	}
+			menu.add(9, i + 1, i, textNbrs[i]);
+		}
 	}
 
 	@Override
@@ -267,10 +306,10 @@ public class YolandasGroceryListActivity extends ListActivity
 	     
 	     switch(requestCode)
 	     {
-	     case 191:
-	    	 Uri data2 = data.getData();
-			String asdf = data2.getPath();
-	    	 break;
+		     case 191:
+		    	 Uri data2 = data.getData();
+				String asdf = data2.getPath();
+		    	 break;
 	     }
 	     
 	     
@@ -302,20 +341,4 @@ public class YolandasGroceryListActivity extends ListActivity
 		groceryListDao.close();
 		super.onPause();
 	}
-
-//	@Override
-//	protected void onRestoreInstanceState(Bundle state)
-//	{
-//		knownItemsDao.open();
-//		groceryListDao.open();
-//		super.onRestoreInstanceState(state);
-//	}
-//
-//	@Override
-//	protected void onSaveInstanceState(Bundle outState)
-//	{
-//		knownItemsDao.close();
-//		groceryListDao.close();
-//		super.onSaveInstanceState(outState);
-//	}
 }

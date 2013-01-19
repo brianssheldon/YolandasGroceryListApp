@@ -7,10 +7,16 @@
 	    android:menuCategory="container"
 	    android:title="add from big list" 
 	    android:visible="true"/>
-     <item  
-	    android:id="@+id/textList" 
+    <item  
+	    android:id="@+id/editTextMsgNbrlist" 
     	android:enabled="true" 
 	    android:menuCategory="container"
-	    android:title="text list" 
+	    android:title="edit text msg nbrs" 
+	    android:visible="true"/>
+    <item  
+	    android:id="@+id/clearGroceryList" 
+    	android:enabled="true" 
+	    android:menuCategory="container"
+	    android:title="clear grocery list" 
 	    android:visible="true"/>
 </menu>

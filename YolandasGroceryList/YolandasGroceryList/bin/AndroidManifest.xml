@@ -4,7 +4,13 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="2" />
+    <uses-sdk
+        android:minSdkVersion="2"
+        android:targetSdkVersion="2" />
+
+    <uses-permission
+        android:name="android.permission.SEND_SMS"
+        android:required="false" />
     
     <supports-screens
         android:anyDensity="true"
@@ -26,6 +32,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".BigListActivity" />
+        <activity android:name="org.bubba.yolanda.edittextphonenbrs.EditTextMsgNumbersActivity" />
     </application>
 
 </manifest>

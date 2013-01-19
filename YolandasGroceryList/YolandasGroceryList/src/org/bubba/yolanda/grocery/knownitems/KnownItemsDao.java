@@ -12,7 +12,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class KnownItemsDao
 {
-	// Database fields
 	private SQLiteDatabase database;
 	private KnownItemsSqlHelper dbHelper;
 	private String[] allColumns = { KnownItemsSqlHelper.COLUMN_ID, 

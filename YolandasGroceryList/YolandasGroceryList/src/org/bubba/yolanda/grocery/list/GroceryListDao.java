@@ -11,7 +11,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class GroceryListDao
 {
-	// Database fields
 	private SQLiteDatabase database;
 	private GroceryListSqlHelper dbHelper;
 	private String[] allColumns = { GroceryListSqlHelper.COLUMN_ID, 
@@ -33,19 +32,6 @@ public class GroceryListDao
 		dbHelper.close();
 	}
 	
-//	public void deleteItem(GroceryItem item)
-//	{
-//		List<GroceryItem> allItems = getAllItems();
-//		
-//		if(allItems == null || id >= allItems.size() || id < 0)
-//		{
-//			return;
-//		}
-//		
-//		GroceryItem newGroceryItem = allItems.get(id);
-//		deleteItem(item);
-//	}
-	
 	public GroceryItem createItem(String item, int quantity)
 	{
 		ContentValues values = new ContentValues();
@@ -65,10 +51,14 @@ public class GroceryListDao
 	public void deleteItem(GroceryItem item)
 	{
 		long id = item.getId();
-		System.out.println("Deleting item with id: " + id + "  item: " + item);
-		int nbrOfRows = database.delete(GroceryListSqlHelper.TABLE_NAME, GroceryListSqlHelper.COLUMN_ID + " = "
+//		int nbrOfRows = 
+		database.delete(GroceryListSqlHelper.TABLE_NAME, GroceryListSqlHelper.COLUMN_ID + " = "
 				+ id, null);
-		System.out.println("Item deleted with id: " + id + "  item: " + item + "  rows deleted: " + nbrOfRows);
+	}
+
+	public void deleteAllItems()
+	{
+		database.delete(GroceryListSqlHelper.TABLE_NAME, GroceryListSqlHelper.COLUMN_ID + " > 0", null);
 	}
 
 	public void updateItem(GroceryItem item)
@@ -91,7 +81,7 @@ public class GroceryListDao
 			items.add(item);
 			cursor.moveToNext();
 		}
-		// Make sure to close the cursor
+
 		cursor.close();
 		return items;
 	}

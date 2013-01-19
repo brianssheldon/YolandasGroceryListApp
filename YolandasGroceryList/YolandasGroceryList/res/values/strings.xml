@@ -140,4 +140,6 @@
         <item>vitamin D</item>
         <item>worchestershire sauce</item>
 	</string-array>
+        <string name="save">save</string>
+        <string name="exit">exit</string>
 </resources>
