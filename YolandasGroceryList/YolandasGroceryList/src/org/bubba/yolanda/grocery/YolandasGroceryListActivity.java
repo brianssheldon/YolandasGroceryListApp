@@ -86,34 +86,35 @@ public class YolandasGroceryListActivity extends ListActivity
 		        items[1] = "Cancel";
 		        for (int i = 0; i < 101; i++) items[i+2]=""+(i+1);
 				
-				new AlertDialog.Builder(arg0.getContext())
-			        .setIcon(android.R.drawable.ic_dialog_alert)
-			        .setTitle("Delete Item   '" + item.getItem() + "'")
-			        .setItems(items, 
-			        		new OnClickListener()
+		        
+		        AlertDialog.Builder builder = new AlertDialog.Builder(arg0.getContext());
+		        builder.setIcon(android.R.drawable.ic_dialog_alert);
+		        builder.setTitle("Delete Item   '" + item.getItem() + "'");
+		        builder.setItems(items, new OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int which)
 					{
-						@Override
-						public void onClick(DialogInterface dialog, int which)
+						if(which == 0)
 						{
-							if(which == 0)
-							{
-								groceryListDao.deleteItem(item);
-								loadGroceryItems();
-							}
-							else if(which == 1)
-							{
-								return;
-							}
-							else if(which > 1)
-							{
-								item.setQuantity(which - 1);
-								saveItem(item);
-								loadGroceryItems();
-							}
+							groceryListDao.deleteItem(item);
+							loadGroceryItems();
 						}
-					})
-			        .create()
-			        .show();
+						else if(which == 1)
+						{
+							return;
+						}
+						else if(which > 1)
+						{
+							item.setQuantity(which - 1);
+							saveItem(item);
+							loadGroceryItems();
+						}
+					}
+				});
+		        AlertDialog alert = builder.create();
+		        alert.show();
+		        alert.getWindow().setLayout(400, 600);
 			}
 		};
 		return listViewOnClickListener;

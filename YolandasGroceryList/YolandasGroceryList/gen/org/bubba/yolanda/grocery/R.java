@@ -14,7 +14,7 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int yolandasshoppinglist=0x7f020000;
+        public static final int myicon3=0x7f020000;
     }
     public static final class id {
         public static final int actv=0x7f070005;

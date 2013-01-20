@@ -20,7 +20,7 @@
         android:smallScreens="true" />
 
     <application
-        android:icon="@drawable/yolandasshoppinglist"
+        android:icon="@drawable/myicon3"
         android:label="@string/app_name" >
         <activity
             android:name=".YolandasGroceryListActivity"
