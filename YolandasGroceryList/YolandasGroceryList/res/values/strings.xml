@@ -2,7 +2,7 @@
 <resources>
 
     <string name="hello">Hello World YolandasGroceryListActivity!</string>
-    <string name="app_name">YolandasGroceryList</string>
+    <string name="app_name">Yolandas Grocery List</string>
     <string name="add_new">Add</string>
 
     <string-array name="food_array">

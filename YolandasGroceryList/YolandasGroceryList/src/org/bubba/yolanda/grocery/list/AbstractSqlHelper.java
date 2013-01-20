@@ -18,7 +18,7 @@ public abstract class AbstractSqlHelper extends SQLiteOpenHelper
 				+ KnownItemsSqlHelper.COLUMN_ID + " integer primary key autoincrement, " 
 				+ KnownItemsSqlHelper.COLUMN_ITEM + " text not null);";
 	
-	private static final String TABLE_CREATE_GROCERY_LIST = "create table "
+	private static final String TABLE_CREATE_GROCERY_LIST = "create table if not exists "
 			+ GroceryListSqlHelper.TABLE_NAME + "(" 
 				+ GroceryListSqlHelper.COLUMN_ID + " integer primary key autoincrement, "
 				+ GroceryListSqlHelper.COLUMN_ITEM + " text not null, "

@@ -25,6 +25,7 @@ public class GroceryListDao
 	public void open() throws SQLException
 	{
 		database = dbHelper.getWritableDatabase();
+		dbHelper.onCreate(database);
 	}
 
 	public void close()

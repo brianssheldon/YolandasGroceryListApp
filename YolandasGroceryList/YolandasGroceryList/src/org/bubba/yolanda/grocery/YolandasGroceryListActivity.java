@@ -265,8 +265,24 @@ public class YolandasGroceryListActivity extends ListActivity
 		    	return true;
 		    
 		    case R.id.clearGroceryList:
-		    	groceryListDao.deleteAllItems();
-		    	loadGroceryItems();
+		    	
+		        new AlertDialog.Builder(this)
+		        .setIcon(android.R.drawable.ic_dialog_alert)
+		        .setTitle("Delete All Items?")
+		        .setMessage("Do you want to delete all items?")
+		        .setPositiveButton("Delete", new DialogInterface.OnClickListener() 
+		        {
+		            @Override
+		            public void onClick(DialogInterface dialog, int which)
+		            {
+				    	groceryListDao.deleteAllItems();
+				    	loadGroceryItems();
+		            }
+		        })
+		        .setNegativeButton("cancel", null)
+		        .show();
+		    	
+		    	return true;
 		    	
 		    default:
 		        return super.onOptionsItemSelected(item);

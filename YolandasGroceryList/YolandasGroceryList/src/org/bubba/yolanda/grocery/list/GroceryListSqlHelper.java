@@ -28,6 +28,7 @@ public class GroceryListSqlHelper extends AbstractSqlHelper
 	{	// moved to abstract class & created by knownITems table
 //        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
 //        db.execSQL(TABLE_CREATE);
+		super.onCreate(db);
 	}
 
 	@Override
