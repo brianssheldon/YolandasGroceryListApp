@@ -6,9 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.bubba.yolanda.grocery.R;
-import org.bubba.yolanda.grocery.R.id;
-import org.bubba.yolanda.grocery.R.layout;
-import org.bubba.yolanda.grocery.R.menu;
 
 import android.app.Activity;
 import android.content.Context;
