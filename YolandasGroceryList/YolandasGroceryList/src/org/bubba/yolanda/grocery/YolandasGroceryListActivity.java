@@ -18,6 +18,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -128,6 +129,7 @@ public class YolandasGroceryListActivity extends ListActivity
 		setListAdapter(adapter);
 	}
 
+	@SuppressLint("NewApi")
 	private void loadKnownItemsView()
 	{
 		List<KnownItem> knownItems = getKnownItems();
@@ -153,13 +155,12 @@ public class YolandasGroceryListActivity extends ListActivity
 	{
 		public void onItemClick(AdapterView<?> parent, View textView, int position, long id)
 		{	// they have selected an item from the dropdown list. add it to the grocery list
+			if(textView == null
+				|| ((TextView)textView).getText() == null
+				|| ((TextView)textView).getText().toString() == "") return;
+			
 			String name = ((TextView)textView).getText().toString(); // get selected item
 			
-			if(name == null || "".equals(name))
-			{
-				return;
-			}
-
 			groceryListDao.createItem(name, 1);
 
 			((AutoCompleteTextView)findViewById(R.id.actv)).setText("");
