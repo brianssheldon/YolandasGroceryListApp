@@ -210,7 +210,7 @@ public class YolandasGroceryListActivity extends ListActivity
 		{
 			case R.id.add:
 				String text = ((AutoCompleteTextView)findViewById(R.id.actv)).getText().toString();
-
+				if(text == null || text.trim().length() == 0) return;
 				knownItemsDao.createKnownItem(text);
 				loadKnownItemsView();
 				
@@ -221,6 +221,7 @@ public class YolandasGroceryListActivity extends ListActivity
 				List<GroceryItem> groceryItems = getGroceryList();
 				ArrayAdapter<GroceryItem> adapter2 = new ArrayAdapter<GroceryItem>(view.getContext(), android.R.layout.simple_list_item_1, groceryItems);
 				setListAdapter(adapter2);
+				loadGroceryItems();
 				break;
 			}
 			adapter.notifyDataSetChanged();
