@@ -52,7 +52,6 @@ public class BigListActivity extends Activity
 	
 	class AddRowListenerx implements OnCheckedChangeListener
 	{
-		@Override
 		public void onCheckedChanged(CompoundButton arg0, boolean arg1) 
 		{
 	    	GroceryListDao groceryListDao = new GroceryListDao(arg0.getContext());

@@ -18,7 +18,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -195,6 +194,23 @@ public class YolandasGroceryListActivity extends ListActivity
 		return groceryListDao.getAllItems();
 	}
 
+	private String getGroceryListForText()
+	{
+		StringBuffer sb = new StringBuffer(100);
+		sb.append("\n");
+		opendbs();
+		List<GroceryItem> list = groceryListDao.getAllItems();
+		
+		for (Iterator<GroceryItem> iterator = list.iterator(); iterator.hasNext();)
+		{
+			GroceryItem groceryItem = iterator.next();
+			sb.append(groceryItem.toString());
+			if(iterator.hasNext()) sb.append("\n");
+		}
+		
+		return sb.toString();
+	}
+
 	private void saveItem(GroceryItem item)
 	{
 		opendbs();
@@ -265,6 +281,13 @@ public class YolandasGroceryListActivity extends ListActivity
 	            Intent myIntent = new Intent(this, EditTextMsgNumbersActivity.class);
 	            startActivityForResult(myIntent, 100);
 		    	return true;
+		    case R.id.sendTextMsg:
+		    	Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+		    	sendIntent.putExtra("sms_body", getGroceryListForText().toString());
+		    	sendIntent.setType("vnd.android-dir/mms-sms");
+		    	startActivity(sendIntent);
+		    	return true;
+		    	
 		    
 		    case R.id.clearGroceryList:
 		    	
