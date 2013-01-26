@@ -14,6 +14,12 @@
 	    android:title="edit text msg nbrs" 
 	    android:visible="true"/>
     <item  
+	    android:id="@+id/emailAuthor" 
+    	android:enabled="true" 
+	    android:menuCategory="container"
+	    android:title="email author" 
+	    android:visible="true"/>
+    <item  
 	    android:id="@+id/clearGroceryList" 
     	android:enabled="true" 
 	    android:menuCategory="container"

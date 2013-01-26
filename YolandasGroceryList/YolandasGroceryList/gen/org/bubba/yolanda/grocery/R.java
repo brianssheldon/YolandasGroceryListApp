@@ -20,8 +20,9 @@ public final class R {
         public static final int actv=0x7f070005;
         public static final int add=0x7f070004;
         public static final int addFromBigList=0x7f07000f;
-        public static final int clearGroceryList=0x7f070011;
+        public static final int clearGroceryList=0x7f070012;
         public static final int editTextMsgNbrlist=0x7f070010;
+        public static final int emailAuthor=0x7f070011;
         public static final int entry1=0x7f070006;
         public static final int entry2=0x7f070007;
         public static final int entry3=0x7f070008;
@@ -32,7 +33,7 @@ public final class R {
         public static final int rlitemquantity=0x7f070000;
         public static final int save=0x7f07000d;
         public static final int save2=0x7f070009;
-        public static final int sendTextMsg=0x7f070012;
+        public static final int sendTextMsg=0x7f070013;
         public static final int textlistbutton=0x7f07000c;
         public static final int textlistphonenumber=0x7f07000b;
         public static final int tv=0x7f070003;

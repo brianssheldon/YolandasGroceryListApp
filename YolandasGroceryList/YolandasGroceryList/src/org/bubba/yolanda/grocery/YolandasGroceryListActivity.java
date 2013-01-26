@@ -1,5 +1,6 @@
 package org.bubba.yolanda.grocery;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,10 +14,12 @@ import org.bubba.yolanda.grocery.list.GroceryListDao;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.net.Uri;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +30,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class YolandasGroceryListActivity extends ListActivity
 {
@@ -66,10 +70,9 @@ public class YolandasGroceryListActivity extends ListActivity
 	{
 		OnItemClickListener listViewOnClickListener = new OnItemClickListener()
 		{
-			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
-				final AdapterView av = arg0;
+//				final AdapterView av = arg0;
 				List<GroceryItem> allItems = groceryListDao.getAllItems();
 				
 				if(allItems == null || arg2 >= allItems.size() || arg2 < 0)
@@ -85,14 +88,12 @@ public class YolandasGroceryListActivity extends ListActivity
 		        items[0] = "Delete Item   '" + item.getItem() + "' ?";
 		        items[1] = "Cancel";
 		        for (int i = 0; i < 101; i++) items[i+2]=""+(i+1);
-				
-		        
+
 		        AlertDialog.Builder builder = new AlertDialog.Builder(arg0.getContext());
 		        builder.setIcon(android.R.drawable.ic_dialog_alert);
 		        builder.setTitle("Delete Item   '" + item.getItem() + "'");
 		        builder.setItems(items, new OnClickListener()
 				{
-					@Override
 					public void onClick(DialogInterface dialog, int which)
 					{
 						if(which == 0)
@@ -188,6 +189,19 @@ public class YolandasGroceryListActivity extends ListActivity
 		return values;
 	}
 
+    
+	private String getKnownItemsAsString()
+	{
+		List<KnownItem> items = getKnownItems();
+		String stringOfItems = "";
+		
+		for (int i = 0; i < items.size(); i++)
+		{
+			stringOfItems += items.get(i).getItem() + "\n";
+		}
+		return stringOfItems;
+	}
+
 	private List<GroceryItem> getGroceryList()
 	{
 		opendbs();
@@ -265,8 +279,7 @@ public class YolandasGroceryListActivity extends ListActivity
 	    int itemId = item.getItemId();
 	    
 		switch (itemId)
-	    {	
-
+	    {
 		    case 1:
 		    case 2:
 		    case 3:
@@ -288,6 +301,28 @@ public class YolandasGroceryListActivity extends ListActivity
 		    	startActivity(sendIntent);
 		    	return true;
 		    	
+		    case R.id.emailAuthor:
+
+		    	if(isNetworkAvailable())
+	    		{
+		    		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+			        emailIntent.setType("plain/text"); 
+			        
+			        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"brian.s.sheldon@gmail.com"});
+
+					emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Yolanda's Grocery List - email to author"
+							+ (new Date()).toString()); 
+					emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, 
+							"\n\n\nList of known items\n"
+							+ getKnownItemsAsString());
+			        startActivity(emailIntent);
+	    		}
+	    		else
+	    		{
+	    			Toast.makeText(this, "\nSorry\n\nYou need an\ninternet connection\nto send an email.\n\n", Toast.LENGTH_LONG).show();
+	    		}
+
+		        return true;
 		    
 		    case R.id.clearGroceryList:
 		    	
@@ -297,7 +332,6 @@ public class YolandasGroceryListActivity extends ListActivity
 		        .setMessage("Do you want to delete all items?")
 		        .setPositiveButton("Delete", new DialogInterface.OnClickListener() 
 		        {
-		            @Override
 		            public void onClick(DialogInterface dialog, int which)
 		            {
 				    	groceryListDao.deleteAllItems();
@@ -312,6 +346,13 @@ public class YolandasGroceryListActivity extends ListActivity
 		    default:
 		        return super.onOptionsItemSelected(item);
 	    }
+	}
+
+	private boolean isNetworkAvailable() {
+	    ConnectivityManager connectivityManager 
+	          = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null;
 	}
 	
 	public boolean onPrepareOptionsMenu (Menu menu)
@@ -349,8 +390,8 @@ public class YolandasGroceryListActivity extends ListActivity
 	     switch(requestCode)
 	     {
 		     case 191:
-		    	 Uri data2 = data.getData();
-				String asdf = data2.getPath();
+//		    	 Uri data2 = data.getData();
+//				String asdf = data2.getPath();
 		    	 break;
 	     }
 	     
