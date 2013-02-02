@@ -4,6 +4,13 @@
     <string name="hello">Hello World YolandasGroceryListActivity!</string>
     <string name="app_name">Yolandas Grocery List</string>
     <string name="add_new">Add</string>
+    <string name="save">save</string>
+    <string name="exit">exit</string>
+    <string name="zero_dot_zerozero">0.00</string>
+    <string name="priceLabel">Price</string>
+    <string name="quantityLabel">Quantity</string>
+    <string name="resultLabel">Result</string>
+    <string name="clear">clear</string>
 
     <string-array name="food_array">
         <item>alfredo sauce</item>
@@ -140,6 +147,4 @@
         <item>vitamin D</item>
         <item>worchestershire sauce</item>
 	</string-array>
-        <string name="save">save</string>
-        <string name="exit">exit</string>
 </resources>

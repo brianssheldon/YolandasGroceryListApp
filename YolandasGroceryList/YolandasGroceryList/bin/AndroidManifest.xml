@@ -35,7 +35,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
         <activity android:name=".BigListActivity" />
+        <activity android:name=".CalculatorActivity"
+        	android:windowSoftInputMode="stateVisible"/>
         <activity android:name="org.bubba.yolanda.edittextphonenbrs.EditTextMsgNumbersActivity" />
     </application>
 

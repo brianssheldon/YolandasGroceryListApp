@@ -300,6 +300,10 @@ public class YolandasGroceryListActivity extends ListActivity
 		    	sendIntent.setType("vnd.android-dir/mms-sms");
 		    	startActivity(sendIntent);
 		    	return true;
+		    case R.id.calculator:
+		    	Intent calcIntent = new Intent(this, CalculatorActivity.class);
+		    	startActivity(calcIntent);
+		    	return true;
 		    	
 		    case R.id.emailAuthor:
 

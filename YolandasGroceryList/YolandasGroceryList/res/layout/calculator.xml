@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/rlCalculator">
+    
+    <TextView
+        android:id="@+id/priceLabel"
+        android:layout_width="80dip"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_marginLeft="30dip"
+        android:gravity="center_horizontal"
+        android:text="@string/priceLabel"
+        android:textSize="20dip"/>
+    
+    <TextView
+        android:id="@+id/quantityLabel"
+        android:layout_width="80dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/priceLabel"
+        android:layout_alignBaseline="@id/priceLabel"
+        android:layout_margin="5dip"
+        android:gravity="center_horizontal"
+        android:text="@string/quantityLabel"
+        android:textSize="20dip"/>
+    
+    <TextView
+        android:id="@+id/resultLabel"
+        android:layout_width="80dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/quantityLabel"
+        android:layout_alignBaseline="@id/quantityLabel"
+        android:layout_margin="5dip"
+        android:gravity="center_horizontal"
+        android:text="@string/resultLabel"
+        android:textSize="20dip"/>
+    
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  -->
+    <EditText
+        android:id="@+id/price1"
+        android:layout_width="80dip"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/priceLabel"
+        android:inputType="numberDecimal"
+        android:gravity="right"
+        android:background="@android:drawable/editbox_background"
+        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_marginLeft="30dip"/>
+    <EditText
+        android:id="@+id/quantity1"
+        android:layout_width="80dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/price1"
+        android:layout_below="@id/quantityLabel"
+        android:inputType="numberDecimal"
+        android:gravity="right"
+        android:background="@android:drawable/editbox_background"
+        android:layout_margin="5dip"/>
+    <TextView
+        android:id="@+id/result1"
+        android:layout_width="80dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/quantity1"
+        android:layout_below="@id/resultLabel"
+        android:layout_alignBaseline="@id/quantity1"
+        android:layout_margin="5dip"
+        android:gravity="right"
+        android:text="@string/zero_dot_zerozero"
+        android:textSize="20dip"/>
+    
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  -->
+    <EditText
+        android:id="@+id/price2"
+        android:layout_width="80dip"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/price1"
+        android:inputType="numberDecimal"
+        android:gravity="right"
+        android:background="@android:drawable/editbox_background"
+        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_marginLeft="30dip"/>
+    <EditText
+        android:id="@+id/quantity2"
+        android:layout_width="80dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/price2"
+        android:layout_below="@id/quantity1"
+        android:inputType="numberDecimal"
+        android:gravity="right"
+        android:background="@android:drawable/editbox_background"
+        android:layout_margin="5dip"/>
+    <TextView
+        android:id="@+id/result2"
+        android:layout_width="80dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/quantity2"
+        android:layout_alignBaseline="@id/quantity2"
+        android:layout_below="@id/result1"
+        android:gravity="right"
+        android:layout_margin="5dip"
+        android:text="@string/zero_dot_zerozero"
+        android:textSize="20dip"/>
+    
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  -->
+    <EditText
+        android:id="@+id/price3"
+        android:layout_width="80dip"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/price2"
+        android:inputType="numberDecimal"
+        android:gravity="right"
+        android:background="@android:drawable/editbox_background"
+        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_marginLeft="30dip"/>
+    <EditText
+        android:id="@+id/quantity3"
+        android:layout_width="80dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/price3"
+        android:layout_below="@id/quantity2"
+        android:inputType="numberDecimal"
+        android:gravity="right"
+        android:background="@android:drawable/editbox_background"
+        android:layout_margin="5dip"/>
+    <TextView
+        android:id="@+id/result3"
+        android:layout_width="80dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/quantity3"
+        android:layout_alignBaseline="@id/quantity3"
+        android:layout_below="@id/result2"
+        android:gravity="right"
+        android:layout_margin="5dip"
+        android:text="@string/zero_dot_zerozero"
+        android:textSize="20dip"/>
+    
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  -->
+    
+    <Button
+        android:id="@+id/clearCalc"
+        android:layout_width="80dip"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_marginLeft="30dip"
+        android:layout_below="@id/price3"
+        android:text="@string/clear"/>
+    <Button
+        android:id="@+id/exitCalc"
+        android:layout_width="80dip"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        android:layout_below="@id/quantity3"
+        android:layout_toRightOf="@id/clearCalc"
+        android:text="@string/exit"/>
+    
+</RelativeLayout>

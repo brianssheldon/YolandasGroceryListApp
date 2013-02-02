@@ -17,13 +17,19 @@
 	    android:id="@+id/emailAuthor" 
     	android:enabled="true" 
 	    android:menuCategory="container"
-	    android:title="email author" 
+	    android:title="email support" 
 	    android:visible="true"/>
     <item  
 	    android:id="@+id/clearGroceryList" 
     	android:enabled="true" 
 	    android:menuCategory="container"
 	    android:title="clear grocery list" 
+	    android:visible="true"/>
+    <item  
+	    android:id="@+id/calculator" 
+    	android:enabled="true" 
+	    android:menuCategory="container"
+	    android:title="price per unit calculator" 
 	    android:visible="true"/>
     <item  
 	    android:id="@+id/sendTextMsg" 
