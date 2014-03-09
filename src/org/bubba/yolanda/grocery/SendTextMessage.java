@@ -74,6 +74,7 @@ public class SendTextMessage
 //    	return record;
 //	}
 	
+//	@SuppressLint("NewApi")
 	@SuppressLint("NewApi")
 	void sendTextMsg(String nbr, final YolandasGroceryListActivity act, List<GroceryItem> list)
 	{
