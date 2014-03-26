@@ -24,6 +24,12 @@ public abstract class AbstractSqlHelper extends SQLiteOpenHelper
 				+ GroceryListSqlHelper.COLUMN_ITEM + " text not null, "
 				+ GroceryListSqlHelper.COLUMN_QUANTITY + " text not null);";
 	
+	private static final String TABLE_CREATE_LIST_OF_LISTS = "create table if not exists "
+			+ "listOflists" + "(" 
+			+ GroceryListSqlHelper.COLUMN_ID + " integer primary key autoincrement, "
+			+ "listName" + " text not null, "
+			+ GroceryListSqlHelper.COLUMN_ITEM + " text not null, "
+			+ GroceryListSqlHelper.COLUMN_QUANTITY + " text not null);";
 
 	public AbstractSqlHelper(Context context, String name, CursorFactory factory, int version)
 	{
@@ -35,5 +41,6 @@ public abstract class AbstractSqlHelper extends SQLiteOpenHelper
 //      db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
 		db.execSQL(TABLE_CREATE_GROCERY_LIST);
 		db.execSQL(TABLE_CREATE_KNOWN_ITEMS);
+		db.execSQL(TABLE_CREATE_LIST_OF_LISTS);
 	}
 }
